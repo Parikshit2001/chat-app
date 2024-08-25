@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import { useEffect } from "react";
+// import { io, Socket } from "socket.io-client";
 import Avatar from "./components/Avatar";
 import SearchBox from "./components/SearchBox";
 import ChatStatus from "./components/ChatStatus";
