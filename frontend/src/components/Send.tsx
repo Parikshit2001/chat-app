@@ -1,4 +1,4 @@
-import Attachment from "./Attachment";
+import AttachmentIcon from "./AttachmentIcon";
 import SendIcon from "./SendIcon";
 
 function Send() {
@@ -12,7 +12,7 @@ function Send() {
         />
       </div>
       <button className="text-orange-600">
-        <Attachment />
+        <AttachmentIcon />
       </button>
       <button className="bg-orange-200 text-orange-600 px-2 py-2 rounded-lg">
         <SendIcon />
