@@ -5,21 +5,24 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/index.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "dev": "tsx watch src/index.ts"
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:drop": "drizzle-kit drop"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@socket.io/admin-ui": "^0.5.1",
     "dotenv": "^16.4.5",
+    "drizzle-kit": "^0.24.2",
     "drizzle-orm": "^0.33.0",
     "postgres": "^3.4.4",
     "socket.io": "^4.7.5"
   },
   "devDependencies": {
-    "@types/node": "^22.3.0",
-    "drizzle-kit": "^0.24.0"
+    "@types/node": "^22.5.0"
   }
 }

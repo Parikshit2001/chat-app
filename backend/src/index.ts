@@ -1,17 +1,17 @@
 import "dotenv/config";
-import { db } from "./drizzle/db";
-import { UserTable } from "./drizzle/schema";
-import { sql } from "drizzle-orm";
-const { instrument } = require("@socket.io/admin-ui");
+import { db } from "../drizzle/db";
+import { UserTable } from "../drizzle/schema";
+// import { sql } from "drizzle-orm";
+// const { instrument } = require("@socket.io/admin-ui");
 
-const io = require("socket.io")(3000, {
-  cors: {
-    origin: ["http://localhost:5173", "https://admin.socket.io"],
-    credentials: true,
-  },
-});
+// const io = require("socket.io")(3000, {
+//   cors: {
+//     origin: ["http://localhost:5173", "https://admin.socket.io"],
+//     credentials: true,
+//   },
+// });
 
-const socketMapping = new Map();
+// const socketMapping = new Map();
 
 async function main() {
   // await db.delete(UserTable);
@@ -38,31 +38,32 @@ async function main() {
   //   with: { preferences: true },
   // });
   // console.log(users);
-
-  io.on("connection", (socket) => {
-    console.log({ socketId: socket.id });
-    // console.log(getConnectedClientIds());
-
-    socket.on("send-message", (message, username) => {
-      socket.to(socketMapping.get(username)).emit("receive-message", message);
-    });
-
-    socket.on("set-username", (username) => {
-      socketMapping.set(username, socket.id);
-      for (const [key, value] of socketMapping) {
-        console.log(`${key} = ${value}`);
-      }
-    });
-
+  //   io.on("connection", (socket) => {
+  //     console.log({ socketId: socket.id });
+  //     // console.log(getConnectedClientIds());
+  //     socket.on("send-message", (message, username) => {
+  //       socket.to(socketMapping.get(username)).emit("receive-message", message);
+  //     });
+  //     socket.on("set-username", (username) => {
+  //       socketMapping.set(username, socket.id);
+  //       for (const [key, value] of socketMapping) {
+  //         console.log(`${key} = ${value}`);
+  //       }
+  //     });
+  //   });
+  // }
+  // function getConnectedClientIds() {
+  //   const connectedClients: string[] = [];
+  //   for (const [id, client] of io.sockets.sockets) {
+  //     connectedClients.push(id);
+  //   }
+  //   return connectedClients;
+  (await db.delete(UserTable)).values();
+  await db.insert(UserTable).values({
+    username: "bingo",
   });
-}
-
-function getConnectedClientIds() {
-  const connectedClients: string[] = [];
-  for (const [id, client] of io.sockets.sockets) {
-    connectedClients.push(id);
-  }
-  return connectedClients;
+  const user = await db.query.UserTable.findFirst();
+  console.log(user);
 }
 
 main();
