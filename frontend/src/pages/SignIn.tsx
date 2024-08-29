@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { PrimaryButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 type FormFields = {
   username: string;
@@ -8,7 +9,16 @@ type FormFields = {
 };
 
 const onSubmit: SubmitHandler<FormFields> = (data) => {
-  console.log(data);
+  axios
+    .post("http://localhost:3000/api/user/signin", data, {
+      withCredentials: true,
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error.response.data);
+    });
 };
 
 function SignIn() {

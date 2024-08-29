@@ -3,13 +3,20 @@ import { db } from "../drizzle/db";
 import { UserTable } from "../drizzle/schema";
 import userRouter from "./routes/User";
 import chatRouter from "./routes/Chat";
-
-import express, { Response } from "express";
+import cors from "cors";
+import express from "express";
+import bodyParser from "body-parser";
 
 const app = express();
 
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://chat-app-psi-neon.vercel.app/"],
+    credentials: true,
+  })
+);
 app.use(express.json());
-
+app.use(bodyParser.json());
 app.listen(3000);
 
 app.use("/api/user", userRouter);
@@ -72,12 +79,12 @@ async function main() {
   //     connectedClients.push(id);
   //   }
   //   return connectedClients;
-  (await db.delete(UserTable)).values();
-  await db.insert(UserTable).values({
-    username: "bingo",
-  });
-  const user = await db.query.UserTable.findFirst();
-  console.log(user);
+  // (await db.delete(UserTable)).values();
+  // await db.insert(UserTable).values({
+  //   username: "bingo",
+  // });
+  // const user = await db.query.UserTable.findFirst();
+  // console.log(user);
 }
 
 main();
