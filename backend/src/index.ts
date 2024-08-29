@@ -1,6 +1,20 @@
 import "dotenv/config";
 import { db } from "../drizzle/db";
 import { UserTable } from "../drizzle/schema";
+import userRouter from "./routes/User";
+import chatRouter from "./routes/Chat";
+
+import express, { Response } from "express";
+
+const app = express();
+
+app.use(express.json());
+
+app.listen(3000);
+
+app.use("/api/user", userRouter);
+app.use("/api/chat", chatRouter);
+
 // import { sql } from "drizzle-orm";
 // const { instrument } = require("@socket.io/admin-ui");
 
