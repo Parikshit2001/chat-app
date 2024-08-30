@@ -6,6 +6,7 @@ import chatRouter from "./routes/Chat";
 import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 const PORT = process.env.PORT ?? 3000;
 const app = express();
@@ -18,12 +19,14 @@ app.use(
 );
 app.use(express.json());
 app.use(bodyParser.json());
-app.listen(PORT, () => {
-  console.log(`Server running on PORT ${PORT}`);
-});
+app.use(cookieParser());
 
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
+
+app.listen(PORT, () => {
+  console.log(`Server running on PORT ${PORT}`);
+});
 
 // import { sql } from "drizzle-orm";
 // const { instrument } = require("@socket.io/admin-ui");
