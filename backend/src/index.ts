@@ -7,6 +7,7 @@ import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
 
+const PORT = process.env.PORT ?? 3000;
 const app = express();
 
 app.use(
@@ -17,7 +18,9 @@ app.use(
 );
 app.use(express.json());
 app.use(bodyParser.json());
-app.listen(3000);
+app.listen(PORT, () => {
+  console.log(`Server running on PORT ${PORT}`);
+});
 
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
