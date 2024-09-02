@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "chats" (
-	"id" uuid PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"from" uuid NOT NULL,
 	"to" uuid NOT NULL,
 	"at" timestamp DEFAULT now() NOT NULL,

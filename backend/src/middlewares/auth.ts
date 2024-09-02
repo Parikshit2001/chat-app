@@ -24,7 +24,7 @@ export const verifyJWT = expressAsyncHandler(async (req, res, next) => {
   }
 
   const user = await db
-    .select({ username: UserTable.username })
+    .select({ username: UserTable.username, id: UserTable.id })
     .from(UserTable)
     .where(eq(UserTable.username, username));
 
@@ -41,5 +41,6 @@ export const verifyJWT = expressAsyncHandler(async (req, res, next) => {
   }
 
   req.body.username = username;
+  req.body.userId = user[0].id;
   next();
 });
