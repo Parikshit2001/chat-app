@@ -42,6 +42,7 @@ const signupUser = asyncHandler(async (req, res) => {
 
   res.status(200).cookie("token", token, options).json({
     message: "Signup Successful",
+    username: username,
   });
 });
 
@@ -78,7 +79,7 @@ const signinUser = asyncHandler(async (req, res) => {
   res
     .status(200)
     .cookie("token", token, options)
-    .json({ message: "Login Successful" });
+    .json({ message: "Login Successful", username: username });
 });
 
 const signoutUser = asyncHandler(async (req, res) => {
@@ -89,4 +90,8 @@ const signoutUser = asyncHandler(async (req, res) => {
     .json({ message: "Logout Successful" });
 });
 
-export { signinUser, signupUser, signoutUser };
+const getUsername = asyncHandler(async (req, res) => {
+  res.status(200).json({ username: req.body.username });
+});
+
+export { signinUser, signupUser, signoutUser, getUsername };
