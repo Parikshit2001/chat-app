@@ -1,27 +1,34 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { PrimaryButton } from "../components/Buttons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUserName } from "../state/username/usernameSlice";
 
 type FormFields = {
   username: string;
   password: string;
 };
 
-const onSubmit: SubmitHandler<FormFields> = (data) => {
-  axios
-    .post("http://localhost:3000/api/user/signin", data, {
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.error(error.response.data);
-    });
-};
-
 function SignIn() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    axios
+      .post("http://localhost:3000/api/user/signin", data, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate("/");
+        dispatch(setUserName(response.data.username));
+      })
+      .catch((error) => {
+        console.error(error.response.data);
+      });
+  };
+
   const {
     register,
     handleSubmit,
