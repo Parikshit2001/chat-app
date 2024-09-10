@@ -2,7 +2,7 @@ import Avatar from "./Avatar";
 
 function StatusBar() {
   return (
-    <div className="flex bg-gray-100 py-3 border-b px-4 space-x-2 items-center ">
+    <div className="flex bg-gray-100 py-3 border-b px-4 space-x-2 items-center h-full">
       <div>
         <Avatar src="" />
       </div>

@@ -1,10 +1,6 @@
-import { useSelector } from "react-redux";
 import Avatar from "./Avatar";
-import { RootState } from "../state/store";
 
 function FriendList() {
-  const toUser = useSelector((state: RootState) => state.toUsername.toUsername);
-
   const names = [
     "naina",
     "Ishika",
@@ -31,7 +27,8 @@ function FriendList() {
             <li
               key={name}
               className={`py-2 px-4 flex items-center space-x-2 border-b cursor-pointer ${
-                toUser === name
+                // toUser === name
+                name === "bing"
                   ? "bg-gray-200 hover:bg-gray-300"
                   : "hover:bg-gray-50"
               }`}
