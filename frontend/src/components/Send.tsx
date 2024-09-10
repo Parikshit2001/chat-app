@@ -1,5 +1,4 @@
-import AttachmentIcon from "./AttachmentIcon";
-import SendIcon from "./SendIcon";
+import { Paperclip, SendHorizonal } from "lucide-react";
 
 function Send() {
   return (
@@ -12,10 +11,10 @@ function Send() {
         />
       </div>
       <button className="text-orange-600">
-        <AttachmentIcon />
+        <Paperclip />
       </button>
       <button className="bg-orange-200 text-orange-600 px-2 py-2 rounded-lg">
-        <SendIcon />
+        <SendHorizonal />
       </button>
     </div>
   );

@@ -1,4 +1,7 @@
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "./Avatar";
+import { RootState } from "../state/store";
+import { setToUsername } from "../state/tousername/toUserSlice";
 
 function FriendList() {
   const names = [
@@ -19,6 +22,9 @@ function FriendList() {
     "Marry",
     "Tim",
   ];
+  const toUser = useSelector((state: RootState) => state.toUser);
+  const dispatch = useDispatch();
+
   return (
     <div className="overflow-y-scroll no-scrollbar max-h-[85vh]">
       <ul className="">
@@ -27,14 +33,13 @@ function FriendList() {
             <li
               key={name}
               className={`py-2 px-4 flex items-center space-x-2 border-b cursor-pointer ${
-                // toUser === name
-                name === "bing"
+                name === toUser.username
                   ? "bg-gray-200 hover:bg-gray-300"
                   : "hover:bg-gray-50"
               }`}
-              // onClick={() => {
-              //   dispatch(setToUsername(name));
-              // }}
+              onClick={() => {
+                dispatch(setToUsername(name));
+              }}
             >
               <div>
                 <Avatar src="" />
