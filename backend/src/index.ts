@@ -41,12 +41,20 @@ io.on("connection", (socket) => {
   socket.on("send-message", (message, username) => {
     socket.to(socketMapping.get(username)).emit("receive-message", message);
   });
-  
+
   socket.on("set-username", (username) => {
     socketMapping.set(username, socket.id);
   });
 
   socket.on("remove-username", (username) => {
     socketMapping.delete(username);
+  });
+
+  socket.on("get-is-active", (username) => {
+    let flag = false;
+    if (socketMapping.has(username)) {
+      flag = true;
+    }
+    socket.to(socket.id).emit("is-active", flag);
   });
 });
