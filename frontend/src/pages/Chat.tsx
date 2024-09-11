@@ -15,6 +15,7 @@ import { URL } from "../utils/constants";
 function Chat() {
   const socket = useSelector((state: RootState) => state.socket.socket);
   const username = useSelector((state: RootState) => state.username.username);
+  const toUser = useSelector((state: RootState) => state.toUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -56,19 +57,21 @@ function Chat() {
           <FriendList />
         </div>
       </div>
-      <div className="col-span-8 flex-col grid grid-rows-12">
-        <div className="items-center row-span-1">
-          <StatusBar />
-        </div>
-        <div className="row-span-11 grid grid-rows-9">
-          <div className="row-span-8">
-            <ChatBox />
+      {toUser.username && (
+        <div className="col-span-8 flex-col grid grid-rows-12">
+          <div className="items-center row-span-1">
+            <StatusBar />
           </div>
-          <div className="row-span-1 border-t flex items-center">
-            <Send />
+          <div className="row-span-11 grid grid-rows-9">
+            <div className="row-span-8">
+              <ChatBox />
+            </div>
+            <div className="row-span-1 border-t flex items-center">
+              <Send />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
