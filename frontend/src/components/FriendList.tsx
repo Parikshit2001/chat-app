@@ -41,8 +41,8 @@ function FriendList() {
                 dispatch(setToUsername(name));
               }}
             >
-              <div>
-                <Avatar src="" />
+              <div className="relative w-10 h-10">
+                <Avatar src="https://picsum.photos/200" />
               </div>
               <div className="flex flex-col justify-between">
                 <div className="flex items-center space-x-2">
