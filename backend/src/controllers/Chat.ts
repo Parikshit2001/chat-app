@@ -1,9 +1,9 @@
-import expressAsyncHandler from "express-async-handler";
+import asyncHandler from "express-async-handler";
 import { db } from "../../drizzle/db";
 import { ChatTable, UserTable } from "../../drizzle/schema";
-import { and, eq, or } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
-export const sendMessage = expressAsyncHandler(async (req, res, next) => {
+const sendMessage = asyncHandler(async (req, res, next) => {
   const {
     username,
     to,
@@ -47,7 +47,7 @@ export const sendMessage = expressAsyncHandler(async (req, res, next) => {
   res.status(200).json({ message: "Success" });
 });
 
-export const getMessage = expressAsyncHandler(async (req, res, next) => {
+const getMessage = asyncHandler(async (req, res, next) => {
   const {
     username,
     userId,
@@ -74,7 +74,7 @@ export const getMessage = expressAsyncHandler(async (req, res, next) => {
     orderBy: (table, func) => func.desc(table.at),
   });
 
-  console.log(chats);
-
-  res.status(200).json({ message: "Success" });
+  res.status(200).json({ message: "Success", chats: chats });
 });
+
+export { sendMessage, getMessage };
