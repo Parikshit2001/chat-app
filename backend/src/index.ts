@@ -23,6 +23,10 @@ app.use(cookieParser());
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
 
+app.get("/", (req, res) => {
+  res.json({ message: "Success" });
+});
+
 const server = app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
