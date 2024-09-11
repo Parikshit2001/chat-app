@@ -94,4 +94,12 @@ const getUsername = asyncHandler(async (req, res) => {
   res.status(200).json({ username: req.body.username });
 });
 
-export { signinUser, signupUser, signoutUser, getUsername };
+const getUsers = asyncHandler(async (req, res, next) => {
+  const users = await db
+    .select({ username: UserTable.username })
+    .from(UserTable)
+    .orderBy(UserTable.username);
+  res.status(200).json({ message: "Success", users: users });
+});
+
+export { signinUser, signupUser, signoutUser, getUsername, getUsers };

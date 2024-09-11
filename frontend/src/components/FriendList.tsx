@@ -2,33 +2,36 @@ import { useDispatch, useSelector } from "react-redux";
 import Avatar from "./Avatar";
 import { RootState } from "../state/store";
 import { setToUsername } from "../state/tousername/toUserSlice";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { URL } from "../utils/constants";
 
 function FriendList() {
-  const names = [
-    "naina",
-    "Ishika",
-    "Neha",
-    "Priya",
-    "Tanya",
-    "Harshita",
-    "Suresh",
-    "Varun",
-    "Aditya",
-    "Monika",
-    "Tarun",
-    "Lakshit",
-    "Shashwat",
-    "John",
-    "Marry",
-    "Tim",
-  ];
+  const [usernames, setUsernames] = useState<string[]>([]);
+  const username = useSelector((state: RootState) => state.username.username);
   const toUser = useSelector((state: RootState) => state.toUser);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios
+      .get(`${URL}/api/user/getusers`, { withCredentials: true })
+      .then((res) => {
+        const data = res.data as {
+          message: string;
+          users: { username: string }[];
+        };
+        const names = data.users.map((user) => user.username);
+        setUsernames(names);
+      });
+  }, []);
 
   return (
     <div className="overflow-y-scroll no-scrollbar max-h-[85vh]">
       <ul className="">
-        {names.map((name) => {
+        {usernames.map((name) => {
+          if (name === username) {
+            return null;
+          }
           return (
             <li
               key={name}

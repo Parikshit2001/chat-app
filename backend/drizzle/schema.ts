@@ -21,19 +21,45 @@ export const ChatTable = pgTable("chats", {
 
 // RELATIONS
 
+// export const UserTableRelations = relations(UserTable, ({ one, many }) => {
+//   return {
+//     chats: many(ChatTable),
+//   };
+// });
+
+// export const ChatTableRelations = relations(ChatTable, ({ one }) => {
+//   return {
+//     fromUser: one(UserTable, {
+//       fields: [ChatTable.from],
+//       references: [UserTable.id],
+//     }),
+//     toUser: one(UserTable, {
+//       fields: [ChatTable.to],
+//       references: [UserTable.id],
+//     }),
+//   };
+// });
+
 export const UserTableRelations = relations(UserTable, ({ one, many }) => {
   return {
-    chats: many(ChatTable),
+    chatsSent: many(ChatTable, {
+      relationName: "chat_from_user",
+    }),
+    chatsReceived: many(ChatTable, {
+      relationName: "chat_to_user",
+    }),
   };
 });
 
 export const ChatTableRelations = relations(ChatTable, ({ one }) => {
   return {
     fromUser: one(UserTable, {
+      relationName: "chat_from_user",
       fields: [ChatTable.from],
       references: [UserTable.id],
     }),
     toUser: one(UserTable, {
+      relationName: "chat_to_user",
       fields: [ChatTable.to],
       references: [UserTable.id],
     }),
