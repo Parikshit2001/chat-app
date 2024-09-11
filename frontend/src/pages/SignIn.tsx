@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUserName } from "../state/username/usernameSlice";
+import { URL } from "../utils/constants";
 
 type FormFields = {
   username: string;
@@ -16,7 +17,7 @@ function SignIn() {
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     axios
-      .post("http://localhost:3000/api/user/signin", data, {
+      .post(`${URL}/api/user/signin`, data, {
         withCredentials: true,
       })
       .then((response) => {

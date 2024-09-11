@@ -10,7 +10,7 @@ type FormFields = {
 
 const onSubmit: SubmitHandler<FormFields> = (data) => {
   axios
-    .post("http://localhost:3000/api/user/signup", data, {
+    .post(`${URL}/api/user/signup`, data, {
       withCredentials: true,
     })
     .then((response) => {
