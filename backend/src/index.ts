@@ -12,7 +12,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://chat-app-psi-neon.vercel.app/"],
+    origin: ["http://localhost:5173", "https://chat-app-psi-neon.vercel.app"],
     credentials: true,
   })
 );
@@ -33,7 +33,7 @@ const server = app.listen(PORT, () => {
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "https://chat-app-psi-neon.vercel.app/"],
+    origin: ["http://localhost:5173", "https://chat-app-psi-neon.vercel.app"],
     credentials: true,
   },
 });
