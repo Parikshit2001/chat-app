@@ -38,6 +38,7 @@ const signupUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    maxAge: 60 * 60 * 24 * 30, // 30 days
   };
 
   res.status(200).cookie("token", token, options).json({
@@ -74,7 +75,11 @@ const signinUser = asyncHandler(async (req, res) => {
 
   const token = await jwt.sign(payload, process.env.JWT_SECRET as string);
 
-  const options = { httpOnly: true, secure: true };
+  const options = {
+    httpOnly: true,
+    secure: true,
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  };
 
   res
     .status(200)
