@@ -62,3 +62,18 @@ io.on("connection", (socket) => {
     socket.to(socket.id).emit("is-active", flag);
   });
 });
+
+async function keepServerUp() {
+  try {
+    const res = await fetch("https://chat-app-l261.onrender.com/");
+    if (!res.ok) {
+      throw new Error(`Failed to fetch: ${res.statusText}`);
+    }
+    const data = await res.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error keeping server alive:", error);
+  }
+}
+
+setInterval(keepServerUp, 5 * 60 * 1000);
