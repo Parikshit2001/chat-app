@@ -83,7 +83,11 @@ const signinUser = asyncHandler(async (req, res) => {
 });
 
 const signoutUser = asyncHandler(async (req, res) => {
-  const options = { httpOnly: true, secure: true };
+  const options = {
+    httpOnly: true,
+    secure: true,
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  };
   res
     .status(200)
     .clearCookie("token", options)
