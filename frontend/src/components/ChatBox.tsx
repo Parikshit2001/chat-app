@@ -36,26 +36,43 @@ function ChatBox() {
     <div className="h-full flex flex-col-reverse overflow-y-scroll no-scrollbar max-h-[80vh]">
       {chats
         .find((element) => element.username === toUser.username)
-        ?.message.map((chat) => (
-          <div
-            key={chat.id}
-            className={`flex ${
-              chat.fromUser.username === username
-                ? "justify-end"
-                : "justify-start"
-            }`}
-          >
+        ?.message.map((chat) => {
+          const currDate = new Date(chat.at);
+          return (
             <div
-              className={`max-w-[60%] border p-5 m-2 rounded-lg ${
+              key={chat.id}
+              className={`flex ${
                 chat.fromUser.username === username
-                  ? "bg-orange-600 text-white"
-                  : "bg-gray-200"
+                  ? "justify-end"
+                  : "justify-start"
               }`}
             >
-              {chat.message}
+              <div className="flex flex-col max-w-[60%] border m-2 rounded-lg">
+                <div
+                  className={`px-5 pt-5 pb-4 rounded-t-lg ${
+                    chat.fromUser.username === username
+                      ? "bg-orange-600 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {chat.message}
+                </div>
+                <div
+                  className={`text-xs justify-between flex rounded-b-lg bg-black text-white`}
+                >
+                  <p className="px-1">
+                    {currDate.getDate()}-
+                    {currDate.toLocaleString("en-US", { month: "long" })}-
+                    {currDate.getFullYear()}
+                  </p>
+                  <p className="px-1">
+                    {currDate.getHours()}:{currDate.getMinutes()}
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
     </div>
   );
 }
