@@ -41,11 +41,17 @@ function Chat() {
 
   useEffect(() => {
     if (username === undefined) {
-      func().then(() => {
-        socket?.emit("set-username", username);
-      });
+      func()
+        .then(() => {
+          socket?.emit("set-username", username);
+        })
+        .catch((err) => {
+          console.error(err);
+          navigate("/signin");
+        });
+    } else {
+      socket?.emit("set-username", username);
     }
-    socket?.emit("set-username", username);
 
     return () => {
       socket?.emit("remove-username", username);
