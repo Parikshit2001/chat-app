@@ -1,17 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL } from "../utils/constants";
 import { setChat } from "../state/chat/chatSlice";
+import { LoaderPinwheel } from "lucide-react";
 
 function ChatBox() {
+  const [loading, setLoading] = useState(false);
   const chats = useSelector((state: RootState) => state.chat);
   const toUser = useSelector((state: RootState) => state.toUser);
   const username = useSelector((state: RootState) => state.username.username);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setLoading(true);
     if (
       toUser.username &&
       chats.find((element) => element.username === toUser.username) ===
@@ -28,9 +31,14 @@ function ChatBox() {
           dispatch(
             setChat({ chats: res.data.chats, username: toUser.username })
           );
-        });
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, [toUser.username]);
+
+  if (loading) return <LoadingState />;
 
   return (
     <div className="h-full flex flex-col-reverse overflow-y-scroll no-scrollbar max-h-[80vh]">
@@ -70,6 +78,26 @@ function ChatBox() {
                   </p>
                 </div>
               </div>
+            </div>
+          );
+        })}
+    </div>
+  );
+}
+
+function LoadingState() {
+  return (
+    <div className="h-full flex flex-col-reverse overflow-y-scroll no-scrollbar max-h-[80vh]">
+      {Array(1)
+        .fill(0)
+        .map((_, index) => {
+          return (
+            <div
+              key={index}
+              className="bg-black my-2 mx-4 py-3 rounded-lg text-white text-center px-6 flex items-center space-x-1"
+            >
+              <LoaderPinwheel />
+              <p>Loading ...</p>
             </div>
           );
         })}
