@@ -42,8 +42,22 @@ const socketMapping = new Map();
 
 io.on("connection", (socket) => {
   console.log({ socketId: socket.id });
-  socket.on("send-message", (message, username) => {
-    socket.to(socketMapping.get(username)).emit("receive-message", message);
+  socket.on("send-message", (fromUsername, toUsername, message, at) => {
+    console.log({ fromUsername, toUsername, message, at });
+    io.to(socketMapping.get(toUsername)).emit(
+      "receive-message",
+      fromUsername,
+      toUsername,
+      message,
+      at
+    );
+    io.to(socketMapping.get(fromUsername)).emit(
+      "receive-message",
+      fromUsername,
+      toUsername,
+      message,
+      at
+    );
   });
 
   socket.on("set-username", (username) => {

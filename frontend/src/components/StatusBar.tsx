@@ -19,7 +19,7 @@ function StatusBar() {
             )}
           </div>
           <div>
-            <p className="text-sm text-gray-500">Typing...</p>
+            {/* <p className="text-sm text-gray-500">Typing...</p> */}
           </div>
         </div>
       </div>

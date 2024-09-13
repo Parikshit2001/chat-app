@@ -2,17 +2,22 @@ import { SendHorizonal } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { setMessage } from "../state/tousername/toUserSlice";
-import { Socket } from "socket.io-client";
 
 function Send() {
+  const username = useSelector((state: RootState) => state.username.username);
   const toUser = useSelector((state: RootState) => state.toUser);
-  const socket = useSelector(
-    (state: RootState) => state.socket.socket
-  ) as Socket;
+  const socket = useSelector((state: RootState) => state.socket.socket);
   const dispatch = useDispatch();
 
   const handleSendMessage = async () => {
-    socket.emit("send-message", toUser.message, toUser.username);
+    const date = new Date();
+    socket?.emit(
+      "send-message",
+      username,
+      toUser.username,
+      toUser.message,
+      date.toISOString()
+    );
     dispatch(setMessage(""));
   };
 

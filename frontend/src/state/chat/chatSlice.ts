@@ -27,8 +27,38 @@ const chatSlice = createSlice({
         message: action.payload.chats,
       });
     },
+    receiveMessage: (
+      state: chatSlice[],
+      action: PayloadAction<{
+        fromUsername: string;
+        toUsername: string;
+        message: string;
+        at: string;
+      }>
+    ) => {
+      const { fromUsername, toUsername, message, at } = action.payload;
+      const updatedState = state.map((chat) => {
+        if (chat.username === fromUsername || chat.username === toUsername) {
+          return {
+            ...chat,
+            message: [
+              {
+                id: `${at}`,
+                fromUser: { username: fromUsername },
+                toUser: { username: toUsername },
+                at,
+                message,
+              },
+              ...chat.message,
+            ],
+          };
+        }
+        return chat;
+      }) as chatSlice[];
+      return updatedState;
+    },
   },
 });
 
-export const { setChat } = chatSlice.actions;
+export const { setChat, receiveMessage } = chatSlice.actions;
 export default chatSlice.reducer;

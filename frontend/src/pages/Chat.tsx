@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setUserName } from "../state/username/usernameSlice";
 import { URL } from "../utils/constants";
+import { receiveMessage } from "../state/chat/chatSlice";
 
 function Chat() {
   const socket = useSelector((state: RootState) => state.socket.socket);
@@ -18,6 +19,12 @@ function Chat() {
   const toUser = useSelector((state: RootState) => state.toUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket?.on("receive-message", (fromUsername, toUsername, message, at) => {
+      dispatch(receiveMessage({ fromUsername, toUsername, message, at }));
+    });
+  }, []);
 
   const func = useCallback(async () => {
     await axios
@@ -39,11 +46,12 @@ function Chat() {
       });
     }
     socket?.emit("set-username", username);
+
     return () => {
       socket?.emit("remove-username", username);
     };
   }, [socket, username, func]);
-  
+
   return (
     <div className="grid sm:grid-cols-12 h-screen">
       <div className="col-span-4 border-r grid grid-rows-12">

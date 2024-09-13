@@ -13,9 +13,7 @@ const initialState: socketSlice = (() => {
   socket.on("connect", () => {
     console.log("connected");
   });
-  socket.on("receive-message", (username, message) => {
-    console.log({ username, message });
-  });
+
   return {
     socket,
   };
