@@ -22,9 +22,10 @@ const chatSlice = createSlice({
       state,
       action: PayloadAction<{ chats: messageSlice[]; username: string }>
     ) => {
+      const { chats, username } = action.payload;
       state.push({
-        username: action.payload.username,
-        message: action.payload.chats,
+        username: username,
+        message: chats,
       });
     },
     receiveMessage: (

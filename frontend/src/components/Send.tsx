@@ -7,9 +7,17 @@ function Send() {
   const username = useSelector((state: RootState) => state.username.username);
   const toUser = useSelector((state: RootState) => state.toUser);
   const socket = useSelector((state: RootState) => state.socket.socket);
+  const chats = useSelector((state: RootState) => state.chat);
   const dispatch = useDispatch();
 
   const handleSendMessage = async () => {
+    if (!username || !toUser.username || !toUser.message) return;
+    if (
+      chats.find((element) => element.username === toUser.username) ===
+      undefined
+    ) {
+      return;
+    }
     const date = new Date();
     socket?.emit(
       "send-message",
@@ -31,6 +39,11 @@ function Send() {
           value={toUser.message}
           onChange={(e) => dispatch(setMessage(e.target.value))}
           autoFocus
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage();
+            }
+          }}
         />
       </div>
       {/* <button className="text-orange-600">

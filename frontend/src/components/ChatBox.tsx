@@ -30,7 +30,7 @@ function ChatBox() {
           );
         });
     }
-  }, []);
+  }, [toUser.username]);
 
   return (
     <div className="h-full flex flex-col-reverse overflow-y-scroll no-scrollbar max-h-[80vh]">
