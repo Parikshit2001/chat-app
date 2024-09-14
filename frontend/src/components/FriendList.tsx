@@ -5,14 +5,17 @@ import { setToUsername } from "../state/tousername/toUserSlice";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL } from "../utils/constants";
+import LoadingState from "./Loading";
 
 function FriendList() {
   const [usernames, setUsernames] = useState<string[]>([]);
   const username = useSelector((state: RootState) => state.username.username);
   const toUser = useSelector((state: RootState) => state.toUser);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`${URL}/api/user/getusers`, { withCredentials: true })
       .then((res) => {
@@ -22,8 +25,11 @@ function FriendList() {
         };
         const names = data.users.map((user) => user.username);
         setUsernames(names);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) return <LoadingState />;
 
   return (
     <div className="overflow-y-scroll no-scrollbar max-h-[85vh]">

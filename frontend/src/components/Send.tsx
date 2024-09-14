@@ -50,7 +50,7 @@ function Send() {
         <Paperclip />
       </button> */}
       <button
-        className="bg-orange-200 text-orange-600 px-2 py-2 rounded-lg"
+        className="bg- text-orange-600 px-2 py-2 rounded-lg"
         onClick={handleSendMessage}
       >
         <SendHorizonal />

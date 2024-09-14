@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL } from "../utils/constants";
 import { setChat } from "../state/chat/chatSlice";
-import { LoaderPinwheel } from "lucide-react";
+import LoadingState from "./Loading";
 
 function ChatBox() {
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ function ChatBox() {
     }
   }, [toUser.username]);
 
-  if (loading) return <LoadingState />;
+  if (loading) return <LoadingState classname="flex flex-col-reverse" />;
 
   return (
     <div className="h-full flex flex-col-reverse overflow-y-scroll no-scrollbar max-h-[80vh]">
@@ -78,26 +78,6 @@ function ChatBox() {
                   </p>
                 </div>
               </div>
-            </div>
-          );
-        })}
-    </div>
-  );
-}
-
-function LoadingState() {
-  return (
-    <div className="h-full flex flex-col-reverse overflow-y-scroll no-scrollbar max-h-[80vh]">
-      {Array(1)
-        .fill(0)
-        .map((_, index) => {
-          return (
-            <div
-              key={index}
-              className="bg-black my-2 mx-4 py-3 rounded-lg text-white text-center px-6 flex items-center space-x-1"
-            >
-              <LoaderPinwheel />
-              <p>Loading ...</p>
             </div>
           );
         })}

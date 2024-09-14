@@ -1,5 +1,4 @@
 import SearchBox from "../components/SearchBox";
-import ChatStatus from "../components/ChatStatus";
 import Send from "../components/Send";
 import FriendList from "../components/FriendList";
 import StatusBar from "../components/StatusBar";
@@ -66,7 +65,7 @@ function Chat() {
         </div>
         <div className="row-span-11 flex flex-col">
           <div>
-            <ChatStatus />
+            {/* <ChatStatus /> */}
           </div>
           <FriendList />
         </div>
