@@ -1,32 +1,37 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { PrimaryButton } from "../components/Buttons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { URL } from "../utils/constants";
 
 type FormFields = {
   username: string;
   password: string;
 };
 
-const onSubmit: SubmitHandler<FormFields> = (data) => {
-  axios
-    .post(`${URL}/api/user/signup`, data, {
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.error(error.response.data);
-    });
-};
-
 function SignUp() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
+
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    axios
+      .post(`${URL}/api/user/signup`, data, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        navigate("/");
+        console.log(response.data);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+        console.error(error.response.data);
+      });
+  };
 
   return (
     <div className="bg-slate-100 h-screen flex flex-col items-center justify-center">
