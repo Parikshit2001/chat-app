@@ -26,6 +26,7 @@ function SignIn() {
         dispatch(setUserName(response.data.username));
       })
       .catch((error) => {
+        alert(error.response.data.message);
         console.error(error.response.data);
       });
   };
