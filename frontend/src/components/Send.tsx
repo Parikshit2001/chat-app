@@ -2,15 +2,20 @@ import { SendHorizonal } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { setMessage } from "../state/tousername/toUserSlice";
+import axios from "axios";
+import { URL } from "../utils/constants";
+import { useState } from "react";
 
 function Send() {
   const username = useSelector((state: RootState) => state.username.username);
   const toUser = useSelector((state: RootState) => state.toUser);
   const socket = useSelector((state: RootState) => state.socket.socket);
   const chats = useSelector((state: RootState) => state.chat);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleSendMessage = async () => {
+    if (loading) return;
     if (!username || !toUser.username || !toUser.message) return;
     if (
       chats.find((element) => element.username === toUser.username) ===
@@ -19,14 +24,36 @@ function Send() {
       return;
     }
     const date = new Date();
-    socket?.emit(
-      "send-message",
-      username,
-      toUser.username,
-      toUser.message,
-      date.toISOString()
-    );
-    dispatch(setMessage(""));
+    setLoading(true);
+    axios
+      .post(
+        `${URL}/api/chat/send`,
+        {
+          to: toUser.username,
+          message: toUser.message,
+          at: date.toISOString(),
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res.data);
+        socket?.emit(
+          "send-message",
+          username,
+          toUser.username,
+          toUser.message,
+          date.toISOString()
+        );
+        dispatch(setMessage(""));
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Unable to send the message");
+        throw new Error("Unable to send the message");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -39,6 +66,7 @@ function Send() {
           value={toUser.message}
           onChange={(e) => dispatch(setMessage(e.target.value))}
           autoFocus
+          disabled={loading}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSendMessage();
@@ -50,7 +78,7 @@ function Send() {
         <Paperclip />
       </button> */}
       <button
-        className="bg- text-orange-600 px-2 py-2 rounded-lg"
+        className="text-orange-600 px-2 py-2 rounded-lg"
         onClick={handleSendMessage}
       >
         <SendHorizonal />
